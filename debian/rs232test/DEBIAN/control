@@ -1,0 +1,12 @@
+Package: rs232test
+Version: 1.0.0
+Architecture: i386
+Maintainer: Egorov N.V. <khenarghot@gmail.com>
+Installed-Size: 32
+Depends: libc6 (>= 2.0)
+Section: unknown
+Priority: extra
+Homepage: <insert the upstream URL, if relevant>
+Description: Программа тестирования последовательного порта
+ Программа тестирования последовательного порта при помощи
+ нульмодемной заглушке или нульмодемного кабеля.

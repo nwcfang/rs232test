@@ -1,0 +1,16 @@
+Source: rs232test
+Section: unknown
+Priority: extra
+Maintainer: Egorov N.V. <khenarghot@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/rs232test.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/rs232test.git;a=summary
+
+Package: rs232test
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Программа тестирования последовательного порта
+ Программа тестирования последовательного порта при помощи
+ нульмодемной заглушке или нульмодемного кабеля.

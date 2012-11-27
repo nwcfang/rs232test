@@ -1,0 +1,7 @@
+*.o
+*.dep
+_test_COM
+_test_COM.1
+_test_COM_daemon
+./debian/rs232test/bin/_test_COM_daemon
+./debian/rs232test/bin/_test_COM
