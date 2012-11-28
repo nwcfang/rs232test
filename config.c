@@ -18,12 +18,14 @@
 #include <getopt.h>
 #include <unistd.h>
 
+#include <tio.h>
+
 #include "config.h"
 
 
 
 
-Configuration config = {
+/*Configuration config = {
     115200, // speed
     -1,     // device fd
     "/dev/ttyUSB0", // device path
@@ -31,6 +33,16 @@ Configuration config = {
     CLIENTMODE, // mode of test
     0, // duration (nowtime is unused)
     1 // work mode
+};*/
+
+Configuration config = {
+    0,
+    -1,     //device fd
+    "/dev/ttyS0",   //device path
+    0,      //minimu m transfered data count 
+    0x0,      //mode of test
+    0,      //duration (nowtime is unused)
+    1       //work mode
 };
 
 static int
@@ -50,15 +62,27 @@ calculate_configuration(Configuration *cfg)
 
 
 int
-write_configuration(Configuration *cfg, char **argv, int argc)
+/*write_configuration(Configuration *cfg, const char *argv[], int argc)*/
+write_configuration(Configuration *cfg )
 {
-    int opt;
+    /*int opt;
     int already_typed = 0;
 
     if (!cfg || !argv ||  argc < 1)
-        return EINVAL;
+        return EINVAL;*/
 
-    while (-1 != (opt = getopt(argc, argv, "D:m:s:dlLh")))
+    //Получение параметров командной строки
+    cfg->duration = tioGetDefL( "DURATION", 0 );
+    cfg->portSpeed = tioGetDefL( "PORTSPEED", 115200 );
+    cfg->sendPacksLength = tioGetDefL( "SENDPACKSLENGTH", 1000 );
+    if( tioGetL( "SERVERMODE" ) > 0 )
+        cfg->serverClientMode = SERVERMODE;
+    else if( tioGetL( "CLIENTSERVERMODE" ) > 0 )
+        cfg->serverClientMode = CLIENTSERVERMODE;
+    else // По умолчанию тест заботает в режиме клиента 
+        cfg->serverClientMode = CLIENTMODE;
+
+    /*while (-1 != (opt = getopt(argc, argv, "D:m:s:dlLh")))
     {
         switch(opt)
         {
@@ -98,17 +122,18 @@ write_configuration(Configuration *cfg, char **argv, int argc)
         default:
             return EAGAIN;
         }
-    }
+    }*/
+    
+
     calculate_configuration(cfg);
     
-    if (optind < argc)
-        strcpy(config.DeviceName, argv[optind]);
+    /*if (optind < argc)
+        strcpy(config.DeviceName, argv[optind]);*/
     
     return 0;
 }
             
-                
-                
+
                 
 
     

@@ -20,6 +20,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+#include <tio.h>
+
 #include "client.h"
 #include "server.h"
 #include "config.h"
@@ -40,14 +42,24 @@ void termination_signal(int signum)
         kill(0, SIGTERM);
 }
 
-int main(int argc, char** argv)
+int main(int argc, const char* argv[])
 {
     pid_t server_child = 0;
     int fd;
     int res = 0, status;
     struct sigaction sigchildAction;
 
-    puts("Test started"); 
+    tio_param sParam [] = {
+       {"D:", "DURATION", "Duration"},
+       { "m:", "PORTSPEED", "Prot speed"},
+       { "s:", "SENDPACKSLENGTH", "Send pack length"},
+       { "d", "SERVERMODE", "Server mode" },
+       { "l", "CLIENTMODE", "Client mode" },
+       { "L", "CLIENTSERVERMODE", "Client/Server mode" }, 
+       {NULL, NULL, NULL}
+    };
+
+    /*puts("Test started"); */
 
 
     sigchildAction.sa_handler = termination_signal;
@@ -65,8 +77,11 @@ int main(int argc, char** argv)
         perror("Signal SIGINT registration failed");
         return -1;
     }
+
+    // Инициализация tio и разбор входных параметров командной строки  
+    tioInit( "alpha", "RS232 test", sParam, argc, argv); 
     
-    if (write_configuration(&config, argv, argc))
+    if (write_configuration(&config))
     {
         fputs("Congiguration read error\n", stderr);
         return -1;
@@ -100,9 +115,12 @@ int main(int argc, char** argv)
 
     if (server_child != 0)
         waitpid(server_child, &status, WNOHANG);
-    
-    return (int)(res || status);
-    
+
+    // Завершение работы библиотеки tio  
+    tioFinish(0);
+
+    //return (int)(res || status);
+    return 0;
 }
         
     

@@ -41,7 +41,7 @@ install:
 	install -m 7555 $(DAEMON_TARGET) $(DESTDIR)/bin
 
 $(TARGET): $(OBJECTS) 
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -ltio
 
 $(OBJECTS): Makefile 
 

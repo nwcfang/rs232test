@@ -159,6 +159,10 @@ server_process(const Configuration* config)
     int rc;
 
     DEBUGMSG("Starting server process");
+
+    if(config->serverClientMode == CLIENTSERVERMODE)
+        daemon(0,0);
+
     if (0 != (rc = wait_ready_state(config->outputDevice)))
     {
         errno = rc;

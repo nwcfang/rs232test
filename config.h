@@ -34,7 +34,7 @@ typedef struct {
 extern Configuration config;
 
 int
-write_configuration(Configuration *cfg, char **argv, int argc);
+write_configuration(Configuration *cfg);
 
 
 #endif // CONFIG_H

@@ -240,7 +240,7 @@ client_process(Configuration *config)
         return -1;
     }
     config->work  = 0;
-    puts("Test COM - OK");
+    puts("client process - OK");
     return 0;
 }
 
