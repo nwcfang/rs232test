@@ -20,7 +20,7 @@ BIN_PREFIX = ../$(BIN_DIR)
 SOURCES = $(wildcard *.c)
 OBJECTS = $(patsubst %.c,%.o,$(SOURCES))
 DEPENDENCES = $(patsubst %.c,%.dep,$(SOURCES))
-CFLAGS  += -Wall -ggdb -pipe -O2 $(INCLUDEDIR) -DNDEBUG
+CFLAGS  += -Wall -ggdb -pipe -O2 $(INCLUDEDIR) -DDEBUGLVL=2
 TARGET= $(BIN_PREFIX)/_test_COM
 DAEMON_TARGET=$(BIN_PREFIX)/_test_COM_daemon
 
