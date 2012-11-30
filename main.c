@@ -88,7 +88,7 @@ int main(int argc, const char* argv[])
     }
     
     /*fd = open_serial_port(config.DeviceName, config.portSpeed);*/
-    fd = open_serial_port(config.DeviceName, tioGetDefL( "PORTSPEED", 115200 ));
+    fd = open_serial_port( tio_argv[0], tioGetDefL( "PORTSPEED", 115200 ));
     if (fd < 0)
     {
         return -1;

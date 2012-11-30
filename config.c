@@ -36,12 +36,12 @@
 };*/
 
 Configuration config = {
-    115200,
+    /*115200,*/
     -1,     //device fd
-    "/dev/ttyS0",   //device path
+    /*"/dev/ttyS0",   //device path*/
     1000,      //minimu m transfered data count 
-    CLIENTSERVERMODE,      //mode of test
-    0,      //duration (nowtime is unused)
+    /*CLIENTSERVERMODE,      //mode of test*/
+    /*0,      //duration (nowtime is unused)*/
     1       //work mode
 };
 
@@ -51,10 +51,13 @@ calculate_configuration(Configuration *cfg)
     if (!cfg)
         return EINVAL;
     
-    if (cfg->duration)
+    /*if (cfg->duration)*/
+    if( tioGetDefL( "DURATION", 0 ) )
     {
-        cfg->sendPacksLength = (cfg->duration * cfg->portSpeed / 8);
-        cfg->duration = 0;
+        /*cfg->sendPacksLength = (cfg->duration * cfg->portSpeed / 8);*/
+        cfg->sendPacksLength = ( tioGetL( "DURATION" ), tioGetDefL( "PORTSPEED", 115200 ) / 8);
+        
+        /*cfg->duration = 0;*/
     }
     return 0;
 
@@ -72,15 +75,15 @@ write_configuration(Configuration *cfg )
         return EINVAL;*/
 
     //Получение параметров командной строки
-    cfg->duration = tioGetDefL( "DURATION", 0 );
-    cfg->portSpeed = tioGetDefL( "PORTSPEED", 115200 );
+    /*cfg->duration = tioGetDefL( "DURATION", 0 );*/
+    /*cfg->portSpeed = tioGetDefL( "PORTSPEED", 115200 );*/
     cfg->sendPacksLength = tioGetDefL( "SENDPACKSLENGTH", 1000 );
-    if( tioGetL( "SERVERMODE" ) > 0 )
+    /*if( tioGetL( "SERVERMODE" ) > 0 )
         cfg->serverClientMode = SERVERMODE;
     else if( tioGetL( "CLIENTSERVERMODE" ) > 0 )
         cfg->serverClientMode = CLIENTSERVERMODE;
     else // По умолчанию тест заботает в режиме клиента 
-        cfg->serverClientMode = CLIENTMODE;
+        cfg->serverClientMode = CLIENTMODE;*/
 
     /*while (-1 != (opt = getopt(argc, argv, "D:m:s:dlLh")))
     {
@@ -129,7 +132,10 @@ write_configuration(Configuration *cfg )
     
     /*if (optind < argc)
         strcpy(config.DeviceName, argv[optind]);*/
-    
+   /*strcpy( config.DeviceName, tio_argv[0] ); */
+   /*puts( "debug:" );*/
+   /*puts( config.DeviceName );*/
+
     return 0;
 }
             

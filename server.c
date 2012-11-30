@@ -147,7 +147,9 @@ send_data_to_client(int ttyFd, long dataCount)
             perror("Server main circle - cant write data to port");
             return EIO;
         }
-        usleep(10 * calculate_delay_from_speed_usec(config.portSpeed));
+        /*usleep(10 * calculate_delay_from_speed_usec(config.portSpeed));*/
+
+        usleep(10 * calculate_delay_from_speed_usec(tioGetDefL( "PORTSPEED", 115200 )));
     }
     while (dataSize > 0 && config.work);
     return 0;
@@ -173,7 +175,6 @@ server_process(const Configuration* config)
     }
     DEBUGMSG("Conformation recived. Starting data transfare");
     if (0 != (rc = send_data_to_client(config->outputDevice, config->sendPacksLength)))
-    /*if (0 != (rc = send_data_to_client(config->outputDevice, tioGetDefL( "PORTSPEED", 115200 ))))*/
     {
         perror("Server sending fatal error: aborted");
         exit(-1);

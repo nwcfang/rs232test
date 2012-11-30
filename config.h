@@ -22,12 +22,12 @@
 #define CLIENTSERVERMODE 0x3
 
 typedef struct {
-    long portSpeed;
+    /*long portSpeed;*/
     int  outputDevice;
-    char DeviceName[PATH_MAX];
+    /*char DeviceName[PATH_MAX];*/
     long sendPacksLength;
-    int  serverClientMode;
-    long duration;
+    /*int  serverClientMode;*/
+    /*long duration;*/
     int  work;
 } Configuration;
 
