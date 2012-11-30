@@ -87,14 +87,16 @@ int main(int argc, const char* argv[])
         return -1;
     }
     
-    fd = open_serial_port(config.DeviceName, config.portSpeed);
+    /*fd = open_serial_port(config.DeviceName, config.portSpeed);*/
+    fd = open_serial_port(config.DeviceName, tioGetDefL( "PORTSPEED", 115200 ));
     if (fd < 0)
     {
         return -1;
     }
     config.outputDevice = fd;
     
-    if (config.serverClientMode == CLIENTSERVERMODE)
+    /*if (config.serverClientMode == CLIENTSERVERMODE)*/
+    if ( tioGetL( "CLIENTSERVERMODE" ) > 0 )
     {
         server_child = fork();
     }

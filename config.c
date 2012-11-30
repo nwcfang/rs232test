@@ -36,11 +36,11 @@
 };*/
 
 Configuration config = {
-    0,
+    115200,
     -1,     //device fd
     "/dev/ttyS0",   //device path
-    0,      //minimu m transfered data count 
-    0x0,      //mode of test
+    1000,      //minimu m transfered data count 
+    CLIENTSERVERMODE,      //mode of test
     0,      //duration (nowtime is unused)
     1       //work mode
 };

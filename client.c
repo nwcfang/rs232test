@@ -25,6 +25,8 @@
 #include "delays.h"
 #include "config.h"
 
+#include <tio.h>
+
 
 static int
 wait(int ttyFd)
@@ -57,7 +59,8 @@ wait(int ttyFd)
             kill(0, SIGTERM);
             return EIO;
         }
-        usleep(usec_floor(32 * config.portSpeed * 1e-6));
+        /*usleep(usec_floor(32 * config.portSpeed * 1e-6));*/
+        usleep(usec_floor(32 * tioGetDefL( "PORTSPEED", 115200 ) * 1e-6));
         retval = read(ttyFd, &readBuffer, sizeof(readBuffer));
         if (retval == -1)
         {
@@ -170,7 +173,8 @@ read_and_compare(int ttyFd, DataPack *standartMessage)
         }
 
         selectDelay.tv_sec  = 0;
-        selectDelay.tv_usec = 20 * calculate_delay_from_speed_usec(config.portSpeed);
+        /*selectDelay.tv_usec = 20 * calculate_delay_from_speed_usec(config.portSpeed);*/
+        selectDelay.tv_usec = 20 * calculate_delay_from_speed_usec( tioGetDefL( "PORTSPEED", 115200 ) );
         FD_ZERO(fdSet);
         FD_SET(ttyFd, fdSet);
 
