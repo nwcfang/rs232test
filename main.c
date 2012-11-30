@@ -100,14 +100,16 @@ int main(int argc, const char* argv[])
     {
         server_child = fork();
     }
-    if ((server_child == 0) && (config.serverClientMode & SERVERMODE))
+    /*if ((server_child == 0) && (config.serverClientMode & SERVERMODE))*/
+    if ((server_child == 0) && (tioGetL( "CLIENTSERVERMODE" ) || tioGetL( "SERVERMODE" ) ) )
     {
         if (server_process(&config))
         {
             return -1;
         }
     }
-    else if (config.serverClientMode & CLIENTMODE)
+    /*else if (config.serverClientMode & CLIENTMODE)*/
+    else if ( tioGetL( "CLIENTSERVERMODE" ) || tioGetL( "CLIENTMODE" ))
         res = client_process(&config);
     else 
     {

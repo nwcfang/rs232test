@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <termios.h>
 #include <arpa/inet.h>
+#include <tio.h>
 
 #include "datapacker.h"
 #include "debuging.h"
@@ -160,7 +161,8 @@ server_process(const Configuration* config)
 
     DEBUGMSG("Starting server process");
 
-    if(config->serverClientMode == CLIENTSERVERMODE)
+    /*if(config->serverClientMode == CLIENTSERVERMODE)*/
+    if( tioGetL( "CLIENTSERVERMODE" ) )
         daemon(0,0);
 
     if (0 != (rc = wait_ready_state(config->outputDevice)))
@@ -171,6 +173,7 @@ server_process(const Configuration* config)
     }
     DEBUGMSG("Conformation recived. Starting data transfare");
     if (0 != (rc = send_data_to_client(config->outputDevice, config->sendPacksLength)))
+    /*if (0 != (rc = send_data_to_client(config->outputDevice, tioGetDefL( "PORTSPEED", 115200 ))))*/
     {
         perror("Server sending fatal error: aborted");
         exit(-1);
