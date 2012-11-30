@@ -1,7 +1,7 @@
 /** client.c --- 
  *
  * Copyright (C) 2011 RTI im. Mintca
- * Copyright (C) 2011 Egorov N.V.
+ * Copyright (C) 2011 Gusev M.S. 
  *
  * Author: Egorov N.V. <egorov@rti-mints.ru>
  * $Id: client.c,v ad3adcfc8418  2012/10/16 10:11:00  egorov@rti-mints.ru $
@@ -59,7 +59,6 @@ wait(int ttyFd)
             kill(0, SIGTERM);
             return EIO;
         }
-        /*usleep(usec_floor(32 * config.portSpeed * 1e-6));*/
         usleep(usec_floor(32 * tioGetDefL( "PORTSPEED", 115200 ) * 1e-6));
         retval = read(ttyFd, &readBuffer, sizeof(readBuffer));
         if (retval == -1)
@@ -173,7 +172,6 @@ read_and_compare(int ttyFd, DataPack *standartMessage)
         }
 
         selectDelay.tv_sec  = 0;
-        /*selectDelay.tv_usec = 20 * calculate_delay_from_speed_usec(config.portSpeed);*/
         selectDelay.tv_usec = 20 * calculate_delay_from_speed_usec( tioGetDefL( "PORTSPEED", 115200 ) );
         FD_ZERO(fdSet);
         FD_SET(ttyFd, fdSet);

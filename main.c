@@ -1,12 +1,12 @@
 /** main.c --- 
  *
  * Copyright (C) 2011 RTI im. Mintca
- * Copyright (C) 2011 Egorov N.V.
+ * Copyright (C) 2011 Gusev M.S.
  *
- * Author: Egorov N.V. <egorov@rti-mints.ru>
- * $Id: main.c,v 158279b7769b  2011/10/14 13:22:37  egorov@rti-mints.ru $
+ * Author: Gusev M.S. <gpinok@gmail.com>
+ * $Id: main.c,v 158279b7769b  2011/10/14 13:22:37  gpinok@gmail.com $
  *
-
+ *
  * Данная программа разработана в ОАО "РТИ имени Минтца".
  * 
  */
@@ -59,9 +59,6 @@ int main(int argc, const char* argv[])
        {NULL, NULL, NULL}
     };
 
-    /*puts("Test started"); */
-
-
     sigchildAction.sa_handler = termination_signal;
     sigchildAction.sa_flags    = SA_NOCLDSTOP;
     sigemptyset(&(sigchildAction.sa_mask));
@@ -87,7 +84,6 @@ int main(int argc, const char* argv[])
         return -1;
     }
     
-    /*fd = open_serial_port(config.DeviceName, config.portSpeed);*/
     fd = open_serial_port( tio_argv[0], tioGetDefL( "PORTSPEED", 115200 ));
     if (fd < 0)
     {
@@ -95,12 +91,10 @@ int main(int argc, const char* argv[])
     }
     config.outputDevice = fd;
     
-    /*if (config.serverClientMode == CLIENTSERVERMODE)*/
     if ( tioGetL( "CLIENTSERVERMODE" ) > 0 )
     {
         server_child = fork();
     }
-    /*if ((server_child == 0) && (config.serverClientMode & SERVERMODE))*/
     if ((server_child == 0) && (tioGetL( "CLIENTSERVERMODE" ) || tioGetL( "SERVERMODE" ) ) )
     {
         if (server_process(&config))
@@ -108,7 +102,6 @@ int main(int argc, const char* argv[])
             return -1;
         }
     }
-    /*else if (config.serverClientMode & CLIENTMODE)*/
     else if ( tioGetL( "CLIENTSERVERMODE" ) || tioGetL( "CLIENTMODE" ))
         res = client_process(&config);
     else 
@@ -123,8 +116,8 @@ int main(int argc, const char* argv[])
     // Завершение работы библиотеки tio  
     tioFinish(0);
 
-    //return (int)(res || status);
-    return 0;
+    return (int)(res || status);
+    /*return 0;*/
 }
         
     
